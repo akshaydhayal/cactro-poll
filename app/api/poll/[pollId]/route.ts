@@ -55,3 +55,15 @@ export async function PUT(req: NextRequest,{params}:{params:Promise<{pollId:numb
     return Response.json({ msg: "Internal server error" }, { status: 500 });
   }
 }
+
+
+export async function GET(req: NextRequest,{params}:{params:Promise<{pollId:number}>}) {
+    try {
+        const {pollId}=await params;
+        const poll=await prismaClient.poll.findUnique({where:{id:Number(pollId)}});
+        return Response.json({ poll });
+    } catch (error) {
+      console.log(error);
+      return Response.json({ msg: "Internal server error" }, { status: 500 });
+    }
+  }
