@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 import { cookies } from "next/headers";
 
@@ -29,7 +28,7 @@ export async function PUT(req: NextRequest,{params}:{params:Promise<{pollId:numb
     }
     const decodedToken = jwt.verify(token.value, process.env.JWT_SECRET);
     console.log(decodedToken);
-    //@ts-ignore
+    //@ts-expect-error
     const user = await prismaClient.user.findUnique({ where: { id: decodedToken.userId } });
     if (!user) {
       return Response.json({ msg: "User not found" }, { status: 401 });
