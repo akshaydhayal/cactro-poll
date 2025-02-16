@@ -1,36 +1,155 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cactro Poll
 
-## Getting Started
+Cactro Poll is a simple polling application built with Next.js, Prisma, and PostgreSQL. Users can create polls, vote, and manage authentication securely.
 
-First, run the development server:
+## Features
+- User authentication (Signup & Login)
+- Create polls with multiple options
+- Vote on polls
+- Retrieve poll results
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Tech Stack
+- **Backend:** Next.js (API Routes)
+- **Database:** PostgreSQL with Prisma ORM
+- **Authentication:** Cookies using JWT (JSON Web Tokens)
+- **Validation:** Zod
+- **Encryption:** Bcrypt
+
+## Installation
+
+### Prerequisites
+Ensure you have the following installed:
+- Node.js
+- PostgreSQL
+
+
+## Prisma Schema
+```prisma
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  password String
+  polls Poll[]
+}
+
+model Poll{
+  id Int @id @default(autoincrement())
+  question String
+  option String[]
+  pollCount Int[] @default([0,0,0,0])
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## API Endpoints
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### User Authentication
+#### Signup
+**POST** `/api/auth/signup`
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "securepassword"
+}
+```
+Response:
+```json
+{
+  "msg": "user signed up!!"
+}
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### Login
+**POST** `/api/auth/signin`
+```json
+{
+  "email": "john@example.com",
+  "password": "securepassword"
+}
+```
+Response:
+```json
+{
+  "msg": "Login successful"
+}
+```
 
-## Learn More
+### Polls
+#### Create Poll
+**POST** `/api/poll`
+```json
+{
+  "question": "What is your favorite programming language?",
+  "option": ["JavaScript", "Python", "Rust", "Go"]
+}
+```
+Response:
+```json
+{
+  "msg": "poll created!!"
+}
+```
 
-To learn more about Next.js, take a look at the following resources:
+#### Get All Polls
+**GET** `/api/poll`
+Response:
+```json
+{
+  "polls": [
+    {
+      "id": 1,
+      "question": "Favorite language?",
+      "option": ["JavaScript", "Python", "Rust", "Go"],
+      "pollCount": [2, 5, 3, 1]
+    }
+  ]
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Vote on a Poll
+**PUT** `/api/poll/{pollId}`
+```json
+{
+  "vote": 2
+}
+```
+Response:
+```json
+{
+  "msg": "poll voted!!"
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### Get Poll by ID
+**GET** `/api/poll/{pollId}`
+Response:
+```json
+{
+  "poll": {
+    "id": 1,
+    "question": "Favorite language?",
+    "option": ["JavaScript", "Python", "Rust", "Go"],
+    "pollCount": [2, 5, 3, 1]
+  }
+}
+```
 
-## Deploy on Vercel
+## License
+This project is licensed under the MIT License.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Author
+[Akshay Dhayal](https://github.com/akshaydhayal)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
