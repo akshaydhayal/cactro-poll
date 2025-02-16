@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, Plus, X } from "lucide-react";
+import { Loader2, Plus, X,User2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
@@ -71,7 +71,6 @@ const PollsHomePage = () => {
       fetchPolls();
     } catch (err) {
       console.log(err);
-      // setCreateError(err.response?.data?.msg || "Failed to create poll");
       setCreateError("Failed to create poll");
     } finally {
       setCreating(false);
@@ -90,10 +89,17 @@ const PollsHomePage = () => {
     <div className="container mx-auto p-4 bg-gray-900 min-h-screen">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-white">Available Polls</h1>
+        <div className="flex gap-4 items-center">
+
         <Button onClick={() => setIsModalOpen(true)} className="bg-blue-600 hover:bg-blue-700">
           <Plus className="w-4 h-4 mr-2" />
           Create Poll
         </Button>
+        <Button onClick={() => router.push("/signin")} className="bg-blue-600 hover:bg-blue-700">
+          <User2Icon className="w-4 h-4 mr-2" />
+          Signin
+        </Button>
+        </div>
       </div>
 
       {error && (
