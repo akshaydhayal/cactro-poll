@@ -70,6 +70,7 @@ const PollsHomePage = () => {
       });
       fetchPolls();
     } catch (err) {
+      console.log(err);
       // setCreateError(err.response?.data?.msg || "Failed to create poll");
       setCreateError("Failed to create poll");
     } finally {

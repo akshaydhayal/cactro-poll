@@ -27,7 +27,7 @@ export async function POST(req:NextRequest){
         const decodedToken=jwt.verify(token.value,process.env.JWT_SECRET);
         console.log(decodedToken);
         console.log(token);
-        //@ts-expect-error
+        //@ts-expect-error:error
         const user=await prismaClient.user.findUnique({where:{id:decodedToken.userId}})
         if(!user){
             return Response.json({msg:'User not found'}, {status:401});
