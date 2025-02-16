@@ -5,14 +5,11 @@ import Button from "./Button";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-// import { useDispatch } from "react-redux";
-// import { updateUser } from "@/store/userSlice";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  // const dispatch=useDispatch();
 
   function inputEmailChange(ip: string) {
     setEmail(ip);
@@ -20,17 +17,7 @@ const Signin = () => {
   function inputPasswordChange(ip: string) {
     setPassword(ip);
   }
-  // async function getUserData(){
-  //   try{
-  //     const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user`);
-  //     if(response.status==200){
-  //       dispatch(updateUser(response.data.user));
-  //       console.log("user state in redux updated");
-  //     }
-  //   }catch(e){
-  //     console.log(e);
-  //   }
-  // }
+  
   async function handleSignin() {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/signin`, {
@@ -38,8 +25,6 @@ const Signin = () => {
         password,
       });
       if (response.status == 200) {
-        // localStorage.setItem("token", response.data.jwtToken);
-        // getUserData();
         router.push("/");
       }
     } catch (e) {
