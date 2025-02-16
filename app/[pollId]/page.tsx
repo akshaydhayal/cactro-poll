@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
 
 const PollVotePage = () => {
-  const [poll, setPoll] = useState(null);
+  const [poll, setPoll] = useState<{id:number,question:string,option:string[],pollCount:number[]}|null>(null);
   const [loading, setLoading] = useState(true);
   const [voting, setVoting] = useState(false);
   const [error, setError] = useState<string | null>(null);
