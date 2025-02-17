@@ -10,6 +10,7 @@ Cactro Poll is a simple polling application built with Next.js, Prisma, and Post
 
 ## Tech Stack
 - **Backend:** Next.js (API Routes)
+- **Frontend:** Next.js, TailwindCSS, ShadCN
 - **Database:** PostgreSQL with Prisma ORM
 - **Authentication:** Cookies using JWT (JSON Web Tokens)
 - **Validation:** Zod
