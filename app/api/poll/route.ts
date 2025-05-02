@@ -43,4 +43,12 @@ export async function POST(req:NextRequest){
     }
 }
 
-export 
+export async function GET(){
+    try{
+        const polls=await prismaClient.poll.findMany({});
+        return Response.json({polls},{status:200});
+    }catch(e){
+        console.log(e);
+        return Response.json({msg:"Internal server error"},{status:500});
+    }
+}
