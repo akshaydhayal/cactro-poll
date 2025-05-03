@@ -5,15 +5,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useParams } from "next/navigation";
 
-const PollVotePage = ({ params }: { params: { pollId: string } }) => {
+const PollVotePage = () => {
   const [poll, setPoll] = useState(null);
   const [loading, setLoading] = useState(true);
   const [voting, setVoting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const pollId=params.pollId;
 
+  const {pollId}=useParams();
   useEffect(() => {
     const fetchPoll = async () => {
       try {
@@ -35,7 +36,7 @@ const PollVotePage = ({ params }: { params: { pollId: string } }) => {
     return (()=>{
         clearInterval(interval);
     })
-  }, [params.pollId]);
+  }, [pollId]);
   console.log("fetched!!");
 
   const handleVote = async (optionIndex: number) => {
