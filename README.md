@@ -26,14 +26,6 @@ Ensure you have the following installed:
 ## Prisma Schema
 ```prisma
 // prisma/schema.prisma
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
 
 model User{
   id Int @id @default(autoincrement())
@@ -57,7 +49,7 @@ model Poll{
 
 ### User Authentication
 #### Signup
-**POST** `/api/auth/signup`
+**POST** `/api/user/signup`
 ```json
 {
   "name": "John Doe",
@@ -73,7 +65,7 @@ Response:
 ```
 
 #### Login
-**POST** `/api/auth/signin`
+**POST** `/api/user/signin`
 ```json
 {
   "email": "john@example.com",
